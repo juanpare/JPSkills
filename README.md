@@ -25,10 +25,11 @@ Copy and paste this prompt into an Antigravity chat to install all JPRalph skill
 ```
 Please help me install the JPRalph skills from GitHub: https://github.com/juanpare/JPSkills
 
-Follow the installation instructions at:
-https://github.com/juanpare/JPSkills/blob/main/jpralph/INSTALLATION.md
-
-Install all 5 JPRalph skills (jpralph-prd, jpralph-convert, jpralph-iterate, jpralph-auto, jpralph-orchestrator) to my .agent/skills/ directory, including their resources/ subdirectories.
+To install, execute these commands:
+1. Clone the repo: git clone https://github.com/juanpare/JPSkills.git
+2. Create skills dir: mkdir -p .agent/skills
+3. Copy skills: cp -r JPSkills/jpralph/skills/* .agent/skills/
+4. Clean up: rm -rf JPSkills
 
 After installation, verify by loading:
 view_file .agent/skills/jpralph-orchestrator/SKILL.md

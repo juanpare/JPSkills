@@ -11,24 +11,15 @@ Copy and paste this entire prompt into an Antigravity chat to install all JPRalp
 **Installation Prompt:**
 
 ```
-Please help me install the JPRalph skills from the GitHub repository: https://github.com/juanpare/JPSkills
+Please help me install the JPRalph skills from GitHub: https://github.com/juanpare/JPSkills
 
-I need you to:
+To install, execute these commands:
+1. Clone the repo: git clone https://github.com/juanpare/JPSkills.git
+2. Create skills dir: mkdir -p .agent/skills
+3. Copy skills: cp -r JPSkills/jpralph/skills/* .agent/skills/
+4. Clean up: rm -rf JPSkills
 
-1. Create the .agent/skills directory in my project if it doesn't exist
-2. Download and install these 5 skills from jpralph/skills/:
-   - jpralph-prd (PRD Generator)
-   - jpralph-convert (PRD to JSON Converter)  
-   - jpralph-iterate (Single Story Executor)
-   - jpralph-auto (Batch Story Executor)
-   - jpralph-orchestrator (Workflow Guide)
-
-For each skill:
-- Copy the entire skill directory including the SKILL.md file
-- Copy the resources/ subdirectory with all its contents
-- Place in .agent/skills/[skill-name]/
-
-After installation, verify by loading the orchestrator:
+After installation, verify by loading:
 view_file .agent/skills/jpralph-orchestrator/SKILL.md
 ```
 
