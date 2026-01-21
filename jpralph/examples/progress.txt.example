@@ -1,0 +1,56 @@
+# Ralph Progress Log
+Started: 2026-01-21 17:00:00
+---
+
+## Codebase Patterns
+- Use `sql<number>` template for database aggregations
+- Always use `IF NOT EXISTS` for migrations to avoid conflicts
+- Export types from actions.ts for UI components to maintain type safety
+- Filter state managed via URL search params for persistence
+- Badge component accepts color variants: 'red' | 'yellow' | 'gray' | 'blue' | 'green'
+
+---
+
+## 2026-01-21 17:05:00 - US-001
+Chat: chat-abc123 - Batch iteration 1 of 5
+- Added priority column to tasks table with enum type
+- Created migration file: 20260121_add_priority_to_tasks.sql
+- Updated TypeScript types in types/database.ts
+- **Learnings for future iterations:**
+  - Patterns discovered: This project uses Drizzle ORM for migrations
+  - Gotchas encountered: Must run `npm run db:generate` after schema changes
+  - Useful context: Database schema is in src/db/schema.ts
+---
+
+## 2026-01-21 17:12:00 - US-002
+Chat: chat-abc123 - Batch iteration 2 of 5
+- Created PriorityBadge component in components/ui/priority-badge.tsx
+- Added color mapping for priority levels
+- Integrated badge into TaskCard component
+- **Learnings for future iterations:**
+  - Patterns discovered: UI components follow shadcn/ui patterns
+  - Gotchas encountered: Must import Badge from @/components/ui/badge
+  - Useful context: TaskCard is in components/tasks/task-card.tsx
+---
+
+## 2026-01-21 17:18:00 - US-003
+Chat: chat-abc123 - Batch iteration 3 of 5
+- Added priority selector to TaskEditModal
+- Implemented optimistic UI updates
+- Connected to updateTask server action
+- **Learnings for future iterations:**
+  - Patterns discovered: Server actions use revalidatePath for cache updates
+  - Gotchas encountered: Must wrap form in <form> tag for server actions
+  - Useful context: Modal is in components/tasks/task-edit-modal.tsx
+---
+
+## 2026-01-21 17:25:00 - US-004
+Chat: chat-abc123 - Batch iteration 4 of 5
+- Added priority filter dropdown to TaskList header
+- Implemented URL param persistence with useSearchParams
+- Added empty state for filtered results
+- **Learnings for future iterations:**
+  - Patterns discovered: This project uses Next.js App Router
+  - Gotchas encountered: useSearchParams must be used in client components
+  - Useful context: TaskList is in app/tasks/page.tsx
+---
