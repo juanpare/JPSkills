@@ -45,7 +45,7 @@ Welcome to JPRalph! 🚀
 I don't see a PRD (Product Requirements Document) yet.
 
 Next step:
-1. Load the jpralph-prd skill: view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-prd/SKILL.md
+1. Load the jpralph-prd skill from your .agent/skills directory
 2. Describe your feature
 3. Answer clarifying questions
 4. PRD will be created in tasks/prd-[feature-name].md
@@ -62,7 +62,7 @@ Great! I found your PRD: tasks/prd-[feature-name].md
 
 Next step: Convert it to Ralph JSON format
 
-1. Load the jpralph-convert skill: view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-convert/SKILL.md
+1. Load the jpralph-convert skill from your .agent/skills directory
 2. Request: "Convert tasks/prd-[feature-name].md to prd.json"
 3. prd.json will be created in project root
 
@@ -97,13 +97,10 @@ How it works:
 
 To start:
 1. Create a NEW CHAT
-2. Load jpralph-iterate skill
+2. Load jpralph-iterate skill from .agent/skills/jpralph-iterate/SKILL.md
 3. Agent implements one story
 4. Review changes
 5. Repeat (new chat each time)
-
-Command to copy:
-view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-iterate/SKILL.md
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -117,13 +114,10 @@ How it works:
 • Create new chat between batches
 
 To start:
-1. Load jpralph-auto skill in THIS chat OR create new chat
+1. Load jpralph-auto skill from .agent/skills/jpralph-auto/SKILL.md
 2. Agent implements up to 5 stories
 3. When batch completes, create NEW CHAT
 4. Repeat until all stories done
-
-Command to copy:
-view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-auto/SKILL.md
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -253,8 +247,7 @@ Great! Let's get started with Ralph. 🚀
 
 I don't see a PRD yet. First step is to create one.
 
-Load the PRD skill:
-view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-prd/SKILL.md
+Load the jpralph-prd skill from your .agent/skills directory.
 
 Then describe your user profile feature, and I'll ask some clarifying questions to create a detailed PRD.
 ```
@@ -265,8 +258,7 @@ Then describe your user profile feature, and I'll ask some clarifying questions 
 ```
 Perfect! Now let's convert it to Ralph JSON format.
 
-Load the convert skill:
-view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/jpralph-convert/SKILL.md
+Load the jpralph-convert skill from your .agent/skills directory.
 
 Then request: "Convert tasks/prd-user-profile.md to prd.json"
 

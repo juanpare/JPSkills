@@ -78,12 +78,21 @@ Follow step-by-step guidance
 
 ## Installation
 
-Copy the jpralph skills to your JPSkills directory:
+JPRalph skills are designed to be self-contained and easy to install in any Antigravity project.
 
+**Quick Install:**
+
+See [INSTALLATION.md](INSTALLATION.md) for detailed installation instructions with copy-paste prompts.
+
+**TL;DR:**
+```
+Copy the jpralph/skills/ directory to your project's .agent/skills/ directory.
+Each skill includes its own resources (templates, examples) and works independently.
+```
+
+**Verify installation:**
 ```bash
-# Skills are already in /Users/juanpare/Documents/Proyectos/JPSkills/jpralph
-# To use them, load via view_file:
-view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/[skill-name]/SKILL.md
+ls -la .agent/skills/jpralph-*/
 ```
 
 ## Available Skills
@@ -100,6 +109,23 @@ view_file /Users/juanpare/Documents/Proyectos/JPSkills/jpralph/skills/[skill-nam
 
 ```
 your-project/
+├── .agent/
+│   └── skills/              # Installed JPRalph skills
+│       ├── jpralph-prd/
+│       │   ├── SKILL.md
+│       │   └── resources/
+│       ├── jpralph-convert/
+│       │   ├── SKILL.md
+│       │   └── resources/
+│       ├── jpralph-iterate/
+│       │   ├── SKILL.md
+│       │   └── resources/
+│       ├── jpralph-auto/
+│       │   ├── SKILL.md
+│       │   └── resources/
+│       └── jpralph-orchestrator/
+│           ├── SKILL.md
+│           └── resources/
 ├── tasks/
 │   └── prd-[feature-name].md    # Generated PRD
 ├── prd.json                      # Ralph execution format
