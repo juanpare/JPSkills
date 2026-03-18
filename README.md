@@ -1,80 +1,94 @@
 # JPSkills
 
-> A curated repo of Antigravity-compatible skills, organized by workflow.
+> Antigravity-compatible skills for autonomous development and server automation.
 
-JPSkills contains self-contained skill packages that can be copied into an Antigravity project's `.agent/skills/` directory. Each skill lives with its own `SKILL.md`, supporting resources, and any workflow-specific scripts.
+A curated collection of self-contained skill packages for [Antigravity](https://antigravity.sh). Each skill includes its own `SKILL.md`, supporting resources, and workflow-specific scripts—just copy what you need into your project.
 
 ## Collections
 
-### `jpralph`
+| Collection | Focus | Skills |
+|------------|-------|--------|
+| [`jpralph`](jpralph/README.md) | PRD-driven autonomous coding | 5 skills |
+| [`openclaw`](openclaw/README.md) | Server-side CLI automation | 1 skill |
 
-PRD-driven autonomous development for Ralph-style execution inside Antigravity.
+### jpralph — Ralph Methodology for Antigravity
+
+PRD-driven autonomous development with fresh-context execution.
 
 | Skill | Purpose |
-| --- | --- |
-| `jpralph-prd` | Generate a feature PRD |
-| `jpralph-convert` | Convert a PRD into `prd.json` |
-| `jpralph-iterate` | Execute one story in manual mode |
-| `jpralph-auto` | Execute up to 5 stories in batch mode |
+|-------|---------|
+| `jpralph-prd` | Generate a structured feature PRD |
+| `jpralph-convert` | Convert PRD → `prd.json` for execution |
+| `jpralph-iterate` | Execute one story (manual mode) |
+| `jpralph-auto` | Execute up to 5 stories (batch mode) |
 | `jpralph-orchestrator` | Guide the overall Ralph workflow |
 
-Docs: [`jpralph/README.md`](jpralph/README.md)
+→ Full docs: [`jpralph/README.md`](jpralph/README.md) · Install guide: [`jpralph/INSTALLATION.md`](jpralph/INSTALLATION.md)
 
-### `openclaw`
+### openclaw — Server Automation Skills
 
-Server-oriented automation skills for deterministic CLI workflows.
+Deterministic CLI workflows for VPS/server environments.
 
 | Skill | Purpose |
-| --- | --- |
-| `openclaw-url-to-kindle` | Fetch a public URL, normalize it to markdown, sync it to Google Drive as a Doc, build an EPUB, and hand it off to Kindle delivery via `gog` |
+|-------|---------|
+| `openclaw-url-to-kindle` | URL → markdown → EPUB → Kindle delivery pipeline |
 
-Docs: [`openclaw/README.md`](openclaw/README.md)
+→ Full docs: [`openclaw/README.md`](openclaw/README.md)
 
-## Install a Skill
+## Quick Install
 
-Copy only the skill directories you need into your target project's `.agent/skills/` folder.
+Copy the skills you need into your project's `.agent/skills/` directory:
 
 ```bash
-mkdir -p .agent/skills
-cp -r JPSkills/jpralph/skills/jpralph-orchestrator .agent/skills/
-cp -r JPSkills/openclaw/skills/openclaw-url-to-kindle .agent/skills/
+# From this repo's root
+mkdir -p /path/to/your-project/.agent/skills
+
+# Install a jpralph skill
+cp -r jpralph/skills/jpralph-auto /path/to/your-project/.agent/skills/
+
+# Install an openclaw skill
+cp -r openclaw/skills/openclaw-url-to-kindle /path/to/your-project/.agent/skills/
 ```
 
-Then load the installed skill directly, for example:
+Load the installed skill in Antigravity:
 
-```text
-view_file .agent/skills/jpralph-orchestrator/SKILL.md
-view_file .agent/skills/openclaw-url-to-kindle/SKILL.md
+```
+view_file .agent/skills/jpralph-auto/SKILL.md
 ```
 
-## Repository Layout
+## Repository Structure
 
-```text
-JPSkills/
-|- jpralph/
-|  |- skills/
-|  |- examples/
-|  |- templates/
-|  |- INSTALLATION.md
-|  |- README.md
-|  `- AGENTS.md
-|- openclaw/
-|  |- skills/
-|  |- README.md
-|  `- AGENTS.md
-`- README.md
+```
+skills/
+├── jpralph/
+│   ├── skills/           # 5 Ralph execution skills
+│   ├── examples/         # Sample PRD, prd.json, progress.txt
+│   ├── templates/        # Project scaffolding templates
+│   ├── INSTALLATION.md   # Detailed install instructions
+│   ├── README.md         # Full jpralph documentation
+│   └── AGENTS.md         # AI agent conventions
+├── openclaw/
+│   ├── skills/           # Server automation skills
+│   ├── README.md         # OpenClaw documentation
+│   └── AGENTS.md         # AI agent conventions
+└── README.md             # This file
 ```
 
 ## Conventions
 
-- Skills are self-contained and documented through their local `SKILL.md` files.
-- Supporting assets stay next to the skill in `resources/`, `scripts/`, or similar folders.
-- Collection-level `README.md` files explain the workflow and assumptions for that area.
+- **Self-contained skills** — Each skill has its own `SKILL.md` with complete instructions.
+- **Colocated assets** — Supporting files (`resources/`, `scripts/`, `templates/`) live next to the skill.
+- **Collection-level docs** — Each collection has a `README.md` explaining workflow and assumptions.
+- **AGENTS.md** — Machine-readable conventions for AI agents working in that collection.
 
-## Notes
+## Requirements by Collection
 
-- `jpralph` includes the most complete workflow documentation and installation guidance in [`jpralph/INSTALLATION.md`](jpralph/INSTALLATION.md).
-- `openclaw-url-to-kindle` depends on the external `gog` CLI and local Python dependencies; see its skill doc for prerequisites.
+| Collection | Dependencies |
+|------------|--------------|
+| `jpralph` | None (pure skill definitions) |
+| `openclaw` | Python + `gog` CLI (skill-specific) |
+
+See individual skill documentation for detailed prerequisites.
 
 ## License
 
