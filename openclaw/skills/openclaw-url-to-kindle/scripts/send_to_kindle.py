@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -57,8 +58,20 @@ def run_delivery(epub_path: Path, kindle_email: str, title: str) -> int:
         return EXIT_EPUB_NOT_FOUND
 
     # Build and execute gog command
-    # gog syntax: gog send --to email file
-    command = ["gog", "send", "--to", kindle_email, str(epub_path)]
+    # gog gmail send --to email --attach file.epub
+    command = ["gog"]
+    account = os.environ.get("GOG_ACCOUNT")
+    if account:
+        command += ["-a", account]
+    subject = f"Kindle: {title}" if title else "Kindle Delivery"
+    body = "Sent by OpenClaw"
+    command += [
+        "gmail", "send",
+        "--to", kindle_email,
+        "--subject", subject,
+        "--body", body,
+        "--attach", str(epub_path),
+    ]
     
     print(f"Sending '{title}' to {kindle_email}...", file=sys.stderr)
     

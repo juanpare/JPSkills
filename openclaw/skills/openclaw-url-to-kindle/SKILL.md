@@ -70,21 +70,38 @@ On success, the script outputs:
 ## Commands
 
 ```bash
-# Install dependencies
-python3 -m pip install -r openclaw/skills/openclaw-url-to-kindle/requirements.txt
+# Install dependencies (virtualenv — recommended)
+cd openclaw/skills/openclaw-url-to-kindle
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
 # Basic usage (only URL and Kindle email required)
-python3 openclaw/skills/openclaw-url-to-kindle/scripts/url_to_kindle.py \
+python3 scripts/url_to_kindle.py \
   "https://example.com/post" \
   --kindle-email "user@kindle.com"
 
 # With custom title and author
-python3 openclaw/skills/openclaw-url-to-kindle/scripts/url_to_kindle.py \
+python3 scripts/url_to_kindle.py \
   "https://example.com/post" \
   --kindle-email "user@kindle.com" \
   --title "My Article" \
   --author "John Doe"
 ```
+
+## Virtualenv (required for install)
+
+This skill expects its Python deps to be installed in a **local venv**.
+If you're a fresh agent on a VPS, do this first:
+
+```bash
+cd openclaw/skills/openclaw-url-to-kindle
+python3 -m venv .venv
+source .venv/bin/activate
+pip install EbookLib
+```
+
+> Rule of thumb: whenever you run the script, **activate the venv** first.
 
 ## Error Handling
 

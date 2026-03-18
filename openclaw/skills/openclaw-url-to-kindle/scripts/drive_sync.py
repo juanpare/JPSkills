@@ -3,18 +3,16 @@
 This module creates/ensures a 'kindle' folder exists in Google Drive and
 imports markdown files as Google Docs.
 
-ASSUMPTIONS about gog CLI syntax (not yet verified on system):
-- gog drive mkdir --name "folder" → creates folder, returns ID
-- gog drive list --name "folder" → lists folders matching name
-- gog docs import --title "Title" --parent "folder_id" file.md → creates Doc from markdown
-
-If these assumptions are incorrect, the error messages will indicate the actual
-gog output for easier debugging.
+Uses gog v0.12+ syntax:
+- gog drive ls --query "name='folder' and mimeType='application/vnd.google-apps.folder' and trashed=false"
+- gog drive mkdir "folder"
+- gog docs create "Title" --parent "folder_id" --file file.md
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
@@ -31,9 +29,13 @@ KINDLE_FOLDER_NAME = "kindle"
 
 def run_gog_command(args: list[str], capture_output: bool = True) -> Tuple[int, str, str]:
     """Run a gog command and return (exit_code, stdout, stderr)."""
+    account = os.environ.get("GOG_ACCOUNT")
+    base = ["gog"]
+    if account:
+        base += ["-a", account]
     try:
         result = subprocess.run(
-            ["gog"] + args,
+            base + args,
             capture_output=capture_output,
             text=True,
             timeout=60,
@@ -53,22 +55,23 @@ def find_kindle_folder() -> Optional[str]:
     Returns:
         Folder ID if found, None otherwise.
     """
-    # ASSUMPTION: gog drive list --name "folder" returns JSON with folder info
+    query = (
+        f"name='{KINDLE_FOLDER_NAME}' and "
+        "mimeType='application/vnd.google-apps.folder' and trashed=false"
+    )
     exit_code, stdout, stderr = run_gog_command([
-        "drive", "list",
-        "--name", KINDLE_FOLDER_NAME,
-        "--type", "folder",
+        "drive", "ls",
+        "--query", query,
         "--max", "1",
+        "--json",
+        "--results-only",
     ])
-    
+
     if exit_code != 0:
         print(f"Warning: Could not list Drive folders: {stderr}", file=__import__("sys").stderr)
         return None
-    
-    # Try to parse folder ID from output
-    # ASSUMPTION: Output is JSON with "id" field, or line with "id: xxx"
+
     try:
-        # Try JSON first
         data = json.loads(stdout)
         if isinstance(data, list) and len(data) > 0:
             return data[0].get("id")
@@ -76,12 +79,11 @@ def find_kindle_folder() -> Optional[str]:
             return data.get("id")
     except json.JSONDecodeError:
         pass
-    
-    # Try line-based format: "id: xxx" or "ID: xxx"
+
     match = re.search(r"(?i)(?:id|folder[_-]?id)[:\s]+([a-zA-Z0-9_-]+)", stdout)
     if match:
         return match.group(1)
-    
+
     return None
 
 
@@ -91,31 +93,28 @@ def create_kindle_folder() -> Optional[str]:
     Returns:
         Folder ID if created successfully, None otherwise.
     """
-    # ASSUMPTION: gog drive mkdir --name "folder" creates folder and returns ID
     exit_code, stdout, stderr = run_gog_command([
         "drive", "mkdir",
-        "--name", KINDLE_FOLDER_NAME,
+        KINDLE_FOLDER_NAME,
+        "--json",
+        "--results-only",
     ])
-    
+
     if exit_code != 0:
         print(f"ERROR: Failed to create '{KINDLE_FOLDER_NAME}' folder: {stderr}", file=__import__("sys").stderr)
         return None
-    
-    # Try to parse folder ID from output
+
     try:
         data = json.loads(stdout)
         if isinstance(data, dict):
             return data.get("id")
     except json.JSONDecodeError:
         pass
-    
-    # Try line-based format
+
     match = re.search(r"(?i)(?:id|folder[_-]?id)[:\s]+([a-zA-Z0-9_-]+)", stdout)
     if match:
         return match.group(1)
-    
-    # If we can't parse the ID but command succeeded, assume it worked
-    # and return None (we'll try to find it next time)
+
     print(f"Warning: Could not parse folder ID from output: {stdout[:200]}", file=__import__("sys").stderr)
     return None
 
@@ -172,18 +171,18 @@ def import_markdown_as_doc(
         return EXIT_DOC_IMPORT_FAILED, None
     
     # Build command
-    # ASSUMPTION: gog docs import --title "Title" [--parent "folder_id"] file.md
+    # gog docs create "Title" --parent <folder_id> --file <markdown>
     args = [
-        "docs", "import",
-        "--title", title,
-        "--format", "markdown",
+        "docs", "create",
+        title,
+        "--file", str(markdown_path),
+        "--json",
+        "--results-only",
     ]
-    
+
     if folder_id:
         args.extend(["--parent", folder_id])
-    
-    args.append(str(markdown_path))
-    
+
     print(f"Importing '{title}' as Google Doc...", file=__import__("sys").stderr)
     exit_code, stdout, stderr = run_gog_command(args)
     
