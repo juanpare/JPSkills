@@ -28,7 +28,7 @@ from send_to_kindle import (
     check_gog_available,
     run_delivery,
 )
-from url_to_markdown import derive_title, fetch_markdown
+from url_to_markdown import derive_title, fetch_markdown, derive_title_from_body
 
 
 # Exit codes (extending send_to_kindle and drive_sync)
@@ -86,7 +86,14 @@ def main() -> int:
         return EXIT_URL_FETCH_FAILED
 
     # Derive title and prepare output paths
-    title = args.title or derive_title(markdown) or args.url
+    title = args.title or derive_title(markdown) or ""
+    generic_titles = {"x", "twitter", "untitled", "article"}
+    if (not title) or (title.strip().lower() in generic_titles):
+        fallback = derive_title_from_body(markdown)
+        if fallback:
+            title = fallback
+    if not title:
+        title = args.url
     slug = slugify(title)
     output_dir = Path(args.output_dir)
     markdown_path = output_dir / f"{slug}.md"

@@ -62,6 +62,25 @@ def derive_title(markdown: str) -> Optional[str]:
     return None
 
 
+def derive_title_from_body(markdown: str) -> Optional[str]:
+    """Fallback: use the first sentence after 'Markdown Content:'"""
+    # Try to locate the body section created by jina reader
+    if "Markdown Content:" in markdown:
+        body = markdown.split("Markdown Content:", 1)[1]
+    else:
+        body = markdown
+
+    # Find first non-empty line
+    for line in body.splitlines():
+        cleaned = line.strip()
+        if cleaned:
+            # Use first sentence or truncate
+            sentence = re.split(r"[\.\!\?]", cleaned)[0].strip()
+            if sentence:
+                return sentence[:120]
+    return None
+
+
 def slugify(value: str) -> str:
     value = re.sub(r"[^a-zA-Z0-9\s-]", "", value).strip().lower()
     value = re.sub(r"[\s_-]+", "-", value)
