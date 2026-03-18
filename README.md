@@ -1,95 +1,81 @@
 # JPSkills
 
-> A collection of powerful Antigravity skills for autonomous AI coding
+> A curated repo of Antigravity-compatible skills, organized by workflow.
 
-JPSkills is a curated collection of skills designed to enhance your Antigravity development workflow. Each skill is self-contained and can be installed independently in any Antigravity project.
+JPSkills contains self-contained skill packages that can be copied into an Antigravity project's `.agent/skills/` directory. Each skill lives with its own `SKILL.md`, supporting resources, and any workflow-specific scripts.
 
-## Available Skills
+## Collections
 
-### 🚀 JPRalph - Autonomous PRD-Driven Development
+### `jpralph`
 
-JPRalph brings the powerful Ralph autonomous coding methodology to Antigravity. Break down features into small user stories and let AI implement them autonomously with quality checks and fresh context per iteration.
+PRD-driven autonomous development for Ralph-style execution inside Antigravity.
 
-**Features:**
-- 📝 PRD Generator - Create detailed product requirements documents
-- 🔄 PRD to JSON Converter - Convert PRDs to executable format
-- ⚡ Autonomous Executors - Implement stories automatically (single or batch mode)
-- 🎯 Workflow Orchestrator - Step-by-step guidance through the process
+| Skill | Purpose |
+| --- | --- |
+| `jpralph-prd` | Generate a feature PRD |
+| `jpralph-convert` | Convert a PRD into `prd.json` |
+| `jpralph-iterate` | Execute one story in manual mode |
+| `jpralph-auto` | Execute up to 5 stories in batch mode |
+| `jpralph-orchestrator` | Guide the overall Ralph workflow |
 
-[Learn more about JPRalph →](jpralph/README.md)
+Docs: [`jpralph/README.md`](jpralph/README.md)
 
-## Quick Install - JPRalph
+### `openclaw`
 
-Copy and paste this prompt into an Antigravity chat to install all JPRalph skills:
+Server-oriented automation skills for deterministic CLI workflows.
 
+| Skill | Purpose |
+| --- | --- |
+| `openclaw-url-to-kindle` | Fetch a public URL, normalize it to markdown, sync it to Google Drive as a Doc, build an EPUB, and hand it off to Kindle delivery via `gog` |
+
+Docs: [`openclaw/README.md`](openclaw/README.md)
+
+## Install a Skill
+
+Copy only the skill directories you need into your target project's `.agent/skills/` folder.
+
+```bash
+mkdir -p .agent/skills
+cp -r JPSkills/jpralph/skills/jpralph-orchestrator .agent/skills/
+cp -r JPSkills/openclaw/skills/openclaw-url-to-kindle .agent/skills/
 ```
-Please help me install the JPRalph skills from GitHub: https://github.com/juanpare/JPSkills
 
-To install, execute these commands:
-1. Clone the repo: git clone https://github.com/juanpare/JPSkills.git
-2. Create skills dir: mkdir -p .agent/skills
-3. Copy skills: cp -r JPSkills/jpralph/skills/* .agent/skills/
-4. Clean up: rm -rf JPSkills
+Then load the installed skill directly, for example:
 
-After installation, verify by loading:
+```text
 view_file .agent/skills/jpralph-orchestrator/SKILL.md
+view_file .agent/skills/openclaw-url-to-kindle/SKILL.md
 ```
 
-For detailed installation instructions, see [jpralph/INSTALLATION.md](jpralph/INSTALLATION.md)
+## Repository Layout
 
-## Getting Started with JPRalph
-
-Once installed, start with the orchestrator for guided workflow:
-
-```
-view_file .agent/skills/jpralph-orchestrator/SKILL.md
-```
-
-Or jump directly to creating a PRD:
-
-```
-view_file .agent/skills/jpralph-prd/SKILL.md
-```
-
-## Repository Structure
-
-```
+```text
 JPSkills/
-├── jpralph/                    # Ralph methodology for Antigravity
-│   ├── skills/                 # 5 self-contained skills
-│   │   ├── jpralph-prd/
-│   │   ├── jpralph-convert/
-│   │   ├── jpralph-iterate/
-│   │   ├── jpralph-auto/
-│   │   └── jpralph-orchestrator/
-│   ├── INSTALLATION.md         # Detailed installation guide
-│   ├── README.md               # JPRalph documentation
-│   └── AGENTS.md               # Project context for agents
-└── README.md                   # This file
+|- jpralph/
+|  |- skills/
+|  |- examples/
+|  |- templates/
+|  |- INSTALLATION.md
+|  |- README.md
+|  `- AGENTS.md
+|- openclaw/
+|  |- skills/
+|  |- README.md
+|  `- AGENTS.md
+`- README.md
 ```
 
-## Future Skills
+## Conventions
 
-More skills coming soon! This repository will grow to include additional Antigravity skills for various development workflows.
+- Skills are self-contained and documented through their local `SKILL.md` files.
+- Supporting assets stay next to the skill in `resources/`, `scripts/`, or similar folders.
+- Collection-level `README.md` files explain the workflow and assumptions for that area.
 
-## Contributing
+## Notes
 
-Contributions are welcome! If you have a skill you'd like to add to JPSkills:
-
-1. Fork the repository
-2. Create your skill following the atomic structure pattern (see jpralph/skills/ for examples)
-3. Include a SKILL.md and resources/ directory
-4. Submit a pull request
+- `jpralph` includes the most complete workflow documentation and installation guidance in [`jpralph/INSTALLATION.md`](jpralph/INSTALLATION.md).
+- `openclaw-url-to-kindle` depends on the external `gog` CLI and local Python dependencies; see its skill doc for prerequisites.
 
 ## License
 
 MIT
-
-## Credits
-
-- **JPRalph** is based on the [Ralph methodology](https://github.com/ghuntley/how-to-ralph-wiggum) by Geoffrey Huntley
-- Adapted for Antigravity by Juan Pare
-
----
-
-**Ready to get started?** Install JPRalph using the prompt above and start building with autonomous AI coding! 🚀
